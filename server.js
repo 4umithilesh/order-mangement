@@ -30,6 +30,7 @@ db.once('open', function() {
 
 //  models lives here
 var Order     = require('./app/models/order');
+var TextPost     = require('./app/models/textpost');
 var Invoice     = require('./app/models/invoice');
 var Shipping     = require('./app/models/shipping');
 var Stores     = require('./app/models/stores');
@@ -49,8 +50,47 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-	res.json({ message: 'Mittal Group! welcome to our api!' });	
+	res.json({ message: 'Vastusashtra Tips! welcome to our api!' });	
 });
+
+
+
+//vastushastra Api
+
+
+router.route('/textpost')
+
+	
+	.post(function(req, res) {
+		
+		var textpost = new TextPost();		
+		textpost.text_id = req.body.text_id;
+		textpost.message = req.body.message;
+		textpost.text_date = req.body.text_date;
+
+		textpost.save(function(err) {
+			if (err)
+				res.send(err);
+
+			res.json({ message: 'text created!' });
+		});
+
+		
+	})
+
+	
+	.get(function(req, res) {
+		TextPost.find(function(err, orders) {
+			if (err)
+				res.send(err);
+
+			res.json(orders);
+		});
+	});
+
+
+
+
 
 // on routes that end in /Orders
 // ----------------------------------------------------
